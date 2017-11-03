@@ -14,7 +14,7 @@ class Weather_Data
      * @Column(type="integer")
      * @var string
      */
-    protected $Sonic-WS10sec;
+    protected $Sonic;
 
     public function getId()
     {

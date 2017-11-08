@@ -1,5 +1,6 @@
 <?php
 // src/User.php
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Entity @Table(name="users")
  */
@@ -30,4 +31,13 @@ class User
     {
         $this->name = $name;
     }
+
+  protected $reportedBugs;
+  protected $assignedBugs;
+
+  public function __construct()
+  {
+    $this->reportedBugs = new ArrayCollection();
+    $this->assignedBugs = new ArrayCollection();
+  }
 }

@@ -3,6 +3,9 @@
 /**
  * @Entity(repositoryClass="BugRepository") @Table(name="bugs")
  */
+
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Bug
 {
     /**
@@ -59,5 +62,12 @@ class Bug
     public function getStatus()
     {
         return $this->status;
+    }
+
+    protected $products;
+
+    public function __construct()
+    {
+      $this->products = new ArrayCollection();
     }
 }

@@ -1,33 +1,42 @@
 <?php
 // src/Bug.php
 /**
- * @Entity(repositoryClass="BugRepository") @Table(name="bugs")
- */
-
+ * @Entity @Table(name="bugs")
+ **/
 use Doctrine\Common\Collections\ArrayCollection;
-
 class Bug
 {
     /**
      * @Id @Column(type="integer") @GeneratedValue
-     * @var int
-     */
+     **/
     protected $id;
     /**
      * @Column(type="string")
-     * @var string
-     */
+     **/
     protected $description;
     /**
      * @Column(type="datetime")
-     * @var DateTime
-     */
+     **/
     protected $created;
     /**
      * @Column(type="string")
-     * @var string
-     */
+     **/
     protected $status;
+
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="assignedBugs")
+     **/
+    protected $engineer;
+
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="reportedBugs")
+     **/
+    protected $reporter;
+
+    /**
+     * @ManyToMany(targetEntity="Product")
+     **/
+    protected $products;
 
     public function getId()
     {
@@ -64,10 +73,46 @@ class Bug
         return $this->status;
     }
 
-    protected $products;
+    // protected $products;
 
     public function __construct()
     {
       $this->products = new ArrayCollection();
     }
+
+    public function setEngineer(User $engineer)
+    {
+      $engineer->assignedToBug($this);
+      $this->engineer = $engineer;
+    }
+
+    public function setReporter(User $reporter)
+    {
+      $reporter->addReportedBug($this);
+      $this->reporter = $reporter;
+    }
+
+    public function getEngineer()
+    {
+      return $this->engineer;
+    }
+
+    public function getReporter()
+    {
+      return $this->reporter;
+    }
+
+    // protected $products = null;
+
+    public function assignToProduct(Product $product)
+    {
+    $this->products[] = $product;
+  }
+
+    public function getProducts()
+    {
+      return $this->products;
+    }
+
+
 }

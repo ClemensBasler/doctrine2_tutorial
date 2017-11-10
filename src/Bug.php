@@ -38,6 +38,11 @@ class Bug
      **/
     protected $products;
 
+    public function close()
+    {
+      $this->status = "CLOSE";
+    }
+
     public function getId()
     {
         return $this->id;
